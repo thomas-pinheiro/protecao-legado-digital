@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Proteção e Legado Digital — Direito Digital</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#15181E; --muted:#6B7280; --soft:#8A93A0; --line:#E7E9EE; --paper:#FFFFFF; --paper2:#F6F7FA;
+  --indigo:#5B5BD6; --indigo-dk:#4444AE;
+  --cyan:#0E9AAa; --cyan-dk:#0B7A86;
+  --violet:#9333EA; --violet-dk:#7322C0;
+  --amber:#E08600; --amber-dk:#B96E00;
+  --red:#E5484D; --green:#23A55A; --green-dk:#1B8447;
+  --r-lg:22px; --r-md:16px;
+}
+*{ box-sizing:border-box; margin:0; padding:0; }
+html,body{ height:100%; background:#0c0f13; overflow:hidden;
+  font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif; color:var(--ink); }
+
+/* ---------- Palco / escala ---------- */
+#pres{ position:fixed; inset:0; }
+#viewport{ position:absolute; inset:0; display:flex; align-items:center; justify-content:center; }
+#scaler{ width:1280px; height:720px; position:relative; transform-origin:center center;
+  background:var(--paper); box-shadow:0 24px 70px rgba(0,0,0,.35); overflow:hidden; }
+
+/* ---------- Chrome (topo) ---------- */
+.chrome{ position:absolute; top:0; left:0; right:0; height:62px; z-index:50;
+  display:flex; align-items:center; gap:18px; padding:0 30px;
+  background:linear-gradient(#fff, #fff); border-bottom:1px solid var(--line); }
+.brand{ display:inline-flex; align-items:center; gap:9px; font-weight:800; font-size:14px; letter-spacing:.2px; color:var(--ink); white-space:nowrap; }
+.brand .mk{ width:22px; height:22px; border-radius:7px; background:conic-gradient(from 220deg, var(--indigo), var(--violet), var(--cyan), var(--indigo)); }
+.ob-bar{ flex:1; height:9px; background:var(--line); border-radius:999px; overflow:hidden; }
+.ob-fill{ height:100%; width:4%; border-radius:999px;
+  background:linear-gradient(90deg, var(--indigo), var(--violet)); transition:width .45s cubic-bezier(.34,1.2,.64,1); }
+.ob-counter{ font-weight:800; font-size:13px; color:var(--soft); font-variant-numeric:tabular-nums; white-space:nowrap; }
+
+/* ---------- CTA (rodapé) ---------- */
+.ob-cta{ position:absolute; left:0; right:0; bottom:0; z-index:50; height:78px; padding:0 30px;
+  display:flex; align-items:center; justify-content:space-between; gap:18px;
+  background:#fff; border-top:1px solid var(--line); }
+.foot-hint{ font-weight:600; font-size:12.5px; color:var(--soft); letter-spacing:.2px; }
+.foot-hint kbd{ font-family:inherit; background:var(--paper2); border:1px solid var(--line); border-bottom-width:2px;
+  border-radius:6px; padding:1px 7px; font-weight:800; font-size:11px; color:var(--muted); }
+.foot-actions{ display:flex; align-items:center; gap:12px; }
+.foot-back{ background:#fff; border:1.5px solid var(--line); border-bottom-width:3px; color:var(--muted);
+  font-weight:800; font-size:14px; font-family:inherit; padding:10px 18px; border-radius:13px; cursor:pointer; transition:.12s; }
+.foot-back:hover:not(:disabled){ background:var(--paper2); color:var(--ink); }
+.foot-back:active{ transform:translateY(2px); }
+.foot-back:disabled{ opacity:.35; cursor:default; }
+.duo-btn{ display:inline-flex; align-items:center; gap:9px; background:var(--indigo); color:#fff;
+  font-weight:800; font-size:15px; text-transform:uppercase; letter-spacing:.8px; font-family:inherit;
+  padding:13px 26px; border:none; border-radius:14px; box-shadow:0 4px 0 var(--indigo-dk); cursor:pointer; min-width:190px; justify-content:center;
+  transition:transform .08s, box-shadow .12s, filter .12s; }
+.duo-btn:hover{ filter:brightness(1.06); transform:translateY(-1px); box-shadow:0 5px 0 var(--indigo-dk); }
+.duo-btn:active{ transform:translateY(4px); box-shadow:0 1px 0 var(--indigo-dk); }
+
+/* ---------- Slide ---------- */
+.slide{ position:absolute; inset:0; background:#fff; display:none; flex-direction:column;
+  padding:96px 64px 104px; overflow:hidden; }
+.slide.active{ display:flex; animation:slideIn .34s ease both; }
+@keyframes slideIn{ from{opacity:0; transform:translateX(26px);} to{opacity:1; transform:none;} }
+
+.eyebrow{ display:inline-flex; align-items:center; gap:9px; font-weight:900; font-size:12.5px;
+  letter-spacing:1.6px; text-transform:uppercase; color:var(--indigo); }
+.eyebrow .dot{ width:9px; height:9px; border-radius:50%; background:var(--indigo); }
+.eyebrow .star{ margin-left:8px; background:var(--amber); color:#fff; font-size:10.5px; letter-spacing:.8px;
+  padding:3px 9px; border-radius:999px; }
+h1.title{ font-family:'Space Grotesk',sans-serif; font-size:50px; font-weight:700; line-height:1.04; letter-spacing:-1.4px; color:var(--ink); margin-top:14px; }
+h2.title{ font-family:'Space Grotesk',sans-serif; font-size:38px; font-weight:700; line-height:1.08; letter-spacing:-1px; color:var(--ink); margin-top:12px; }
+.subtitle{ font-size:18.5px; color:var(--muted); font-weight:600; line-height:1.45; margin-top:14px; max-width:980px; }
+.stage{ flex:1; display:flex; flex-direction:column; justify-content:center; gap:20px; min-height:0; }
+.stage.top{ justify-content:flex-start; padding-top:6px; }
+strong{ color:var(--indigo-dk); font-weight:800; }
+
+/* topics list */
+.topics{ list-style:none; display:flex; flex-direction:column; gap:13px; max-width:1000px; }
+.topics li{ display:flex; gap:15px; align-items:flex-start; font-size:19px; font-weight:600; line-height:1.4; color:var(--ink); }
+.topics li .mk{ flex:none; width:30px; height:30px; border-radius:9px; background:var(--paper2);
+  display:grid; place-items:center; font-size:16px; margin-top:1px; }
+
+/* cards grid */
+.grid{ display:grid; gap:16px; }
+.grid.c2{ grid-template-columns:1fr 1fr; } .grid.c3{ grid-template-columns:repeat(3,1fr); } .grid.c4{ grid-template-columns:repeat(4,1fr); }
+.card{ background:#fff; border:1.5px solid var(--line); border-bottom-width:5px; border-radius:18px; padding:20px 22px; }
+.card .ico{ font-size:28px; display:block; margin-bottom:9px; }
+.card h3{ font-size:17.5px; font-weight:900; margin-bottom:5px; letter-spacing:-.2px; }
+.card p{ font-size:14.5px; font-weight:600; color:var(--muted); line-height:1.4; }
+
+/* two-column compare */
+.cols{ display:grid; grid-template-columns:1fr 1fr; gap:20px; }
+.col{ border:1.5px solid var(--line); border-radius:20px; padding:24px 26px; background:#fff; }
+.col .ch{ display:inline-flex; align-items:center; gap:10px; font-weight:900; font-size:18px; margin-bottom:14px; letter-spacing:-.2px; }
+.col ul{ list-style:none; display:flex; flex-direction:column; gap:9px; }
+.col li{ font-size:16px; font-weight:600; color:var(--ink); line-height:1.35; padding-left:20px; position:relative; }
+.col li::before{ content:""; position:absolute; left:0; top:9px; width:8px; height:8px; border-radius:50%; }
+.col.good{ border-color:#CDEBD8; background:#F4FBF6; }
+.col.good .ch{ color:var(--green-dk); } .col.good li::before{ background:var(--green); }
+.col.warn{ border-color:#F3D9DB; background:#FCF5F5; }
+.col.warn .ch{ color:#B23036; } .col.warn li::before{ background:var(--red); }
+
+/* casebox (destaque) */
+.casebox{ border:2px solid var(--indigo); border-radius:22px; padding:26px 30px; background:linear-gradient(180deg,#fff, #FAFAFF);
+  box-shadow:0 8px 0 rgba(91,91,214,.10); }
+.casebox .kicker{ font-weight:900; font-size:13px; letter-spacing:1px; text-transform:uppercase; color:var(--indigo); }
+.casebox h3{ font-family:'Space Grotesk',sans-serif; font-size:26px; font-weight:700; letter-spacing:-.6px; margin:6px 0 12px; }
+.casebox p{ font-size:16.5px; font-weight:600; color:var(--ink); line-height:1.5; }
+.casebox .meta{ display:flex; flex-wrap:wrap; gap:8px; margin-top:14px; }
+.pill{ font-size:13px; font-weight:800; padding:6px 13px; border-radius:999px; background:var(--paper2); color:var(--muted); border:1px solid var(--line); }
+.pill.hot{ background:#FFF3E0; color:var(--amber-dk); border-color:#F3DFBC; }
+
+/* timeline */
+.tl{ display:flex; flex-direction:column; gap:0; max-width:1010px; }
+.tl .row{ display:grid; grid-template-columns:128px 1fr; gap:20px; align-items:start; padding:11px 0; position:relative; }
+.tl .row::before{ content:""; position:absolute; left:139px; top:0; bottom:0; width:2px; background:var(--line); }
+.tl .row:last-child::before{ display:none; }
+.tl .when{ font-weight:900; font-size:15px; color:var(--indigo-dk); text-align:right; padding-top:2px; }
+.tl .what{ position:relative; padding-left:26px; font-size:17px; font-weight:600; line-height:1.4; }
+.tl .what::before{ content:""; position:absolute; left:-9px; top:5px; width:14px; height:14px; border-radius:50%; background:#fff; border:3px solid var(--indigo); }
+.tl .what b{ color:var(--ink); font-weight:800; }
+
+/* stat numbers */
+.stats{ display:grid; grid-template-columns:repeat(3,1fr); gap:18px; }
+.stat{ border-radius:20px; padding:24px 24px; color:#fff; }
+.stat .num{ font-family:'Space Grotesk',sans-serif; font-size:40px; font-weight:700; line-height:1; letter-spacing:-1px; }
+.stat .lbl{ font-size:14px; font-weight:700; margin-top:9px; line-height:1.3; opacity:.95; }
+.stat.a{ background:linear-gradient(135deg,var(--indigo),var(--violet)); }
+.stat.b{ background:linear-gradient(135deg,var(--cyan),#13B0A6); }
+.stat.c{ background:linear-gradient(135deg,#3B3F46,#23262C); }
+
+/* criteria */
+.crit{ display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+.crit .item{ border:1.5px solid var(--line); border-left:5px solid var(--violet); border-radius:14px; padding:18px 20px; background:#fff; }
+.crit .item .q{ font-weight:900; font-size:18px; letter-spacing:-.2px; }
+.crit .item .d{ font-size:14.5px; font-weight:600; color:var(--muted); margin-top:5px; line-height:1.4; }
+
+/* note (rodapé legal/fonte) */
+.note{ margin-top:8px; font-size:13.5px; font-weight:600; color:var(--soft); display:flex; align-items:center; gap:8px; }
+.note .b{ font-size:11px; font-weight:900; letter-spacing:.6px; text-transform:uppercase; background:var(--paper2); border:1px solid var(--line); color:var(--muted); padding:3px 9px; border-radius:7px; }
+
+/* ===== cover ===== */
+.slide.cover{ padding:0; }
+.cover-wrap{ flex:1; display:grid; grid-template-columns:1.15fr .85fr; }
+.cover-l{ padding:74px 56px; display:flex; flex-direction:column; justify-content:center;
+  background:radial-gradient(120% 120% at 0% 0%, #1A1340 0%, #221A52 40%, #2A1170 100%); color:#fff; position:relative; overflow:hidden; }
+.cover-l::after{ content:""; position:absolute; right:-120px; bottom:-120px; width:380px; height:380px; border-radius:50%;
+  background:radial-gradient(circle, rgba(147,51,234,.55), transparent 70%); filter:blur(8px); }
+.cover-tag{ font-weight:900; font-size:13px; letter-spacing:2px; text-transform:uppercase; color:#C4B5FD; }
+.cover-l h1{ font-family:'Space Grotesk',sans-serif; font-size:58px; font-weight:700; line-height:1; letter-spacing:-2px; margin:18px 0 16px; }
+.cover-hook{ font-size:20px; font-weight:600; color:#E9E4FF; line-height:1.45; max-width:520px; position:relative; z-index:1; }
+.cover-meta{ margin-top:30px; font-size:14.5px; font-weight:700; color:#C6BEEF; position:relative; z-index:1; }
+.cover-r{ padding:64px 48px; display:flex; flex-direction:column; justify-content:center; background:var(--paper2); }
+.cover-r .who{ font-weight:900; font-size:12.5px; letter-spacing:1.4px; text-transform:uppercase; color:var(--muted); margin-bottom:16px; }
+.team{ display:flex; flex-direction:column; gap:10px; }
+.member{ display:flex; align-items:center; gap:14px; background:#fff; border:1.5px solid var(--line); border-bottom-width:4px; border-radius:14px; padding:12px 16px; }
+.member .ava{ width:38px; height:38px; border-radius:11px; flex:none; display:grid; place-items:center; color:#fff; font-weight:900; font-size:15px; }
+.member .nm{ font-weight:700; font-size:15.5px; letter-spacing:-.2px; }
+
+/* ===== agenda ===== */
+.qcards{ display:grid; grid-template-columns:repeat(3,1fr); gap:18px; }
+.qcard{ border-radius:20px; padding:26px 24px; color:#fff; }
+.qcard .q{ font-family:'Space Grotesk',sans-serif; font-size:30px; font-weight:700; letter-spacing:-.8px; }
+.qcard .d{ font-size:15.5px; font-weight:600; margin-top:8px; opacity:.95; line-height:1.35; }
+.qcard.q1{ background:linear-gradient(135deg,var(--indigo),var(--indigo-dk)); }
+.qcard.q2{ background:linear-gradient(135deg,var(--cyan),var(--cyan-dk)); }
+.qcard.q3{ background:linear-gradient(135deg,var(--violet),var(--violet-dk)); }
+.path{ display:flex; align-items:center; gap:12px; margin-top:22px; flex-wrap:wrap; }
+.path .p{ font-weight:800; font-size:15px; padding:10px 18px; border-radius:12px; background:var(--paper2); border:1.5px solid var(--line); }
+.path .arr{ color:var(--soft); font-weight:900; }
+
+/* block accents */
+.blk-dir .eyebrow, .blk-dir .eyebrow .dot{ color:var(--indigo); background-color:transparent; }
+.blk-dir .eyebrow .dot{ background:var(--indigo); }
+.blk-game .eyebrow{ color:var(--cyan-dk); } .blk-game .eyebrow .dot{ background:var(--cyan); }
+.blk-ia .eyebrow{ color:var(--violet-dk); } .blk-ia .eyebrow .dot{ background:var(--violet); }
+.blk-end .eyebrow{ color:var(--green-dk); } .blk-end .eyebrow .dot{ background:var(--green); }
+.blk-game .casebox{ border-color:var(--cyan); box-shadow:0 8px 0 rgba(14,154,170,.12); }
+.blk-game .casebox .kicker, .blk-game .tl .when{ color:var(--cyan-dk); }
+.blk-game .tl .what::before{ border-color:var(--cyan); }
+.blk-ia .casebox{ border-color:var(--violet); box-shadow:0 8px 0 rgba(147,51,234,.12); }
+.blk-ia .casebox .kicker, .blk-ia .tl .when{ color:var(--violet-dk); }
+.blk-ia .tl .what::before{ border-color:var(--violet); }
+
+/* ===== TOC ===== */
+.toc-toggle{ position:absolute; top:13px; right:0; z-index:60; display:none; }
+.toc-panel{ position:absolute; inset:0; z-index:70; background:rgba(15,12,30,.55); backdrop-filter:blur(3px);
+  display:none; align-items:stretch; }
+.toc-panel.open{ display:flex; }
+.toc-inner{ width:430px; max-width:80%; background:#fff; height:100%; padding:30px 24px; overflow:auto; box-shadow:8px 0 40px rgba(0,0,0,.3); }
+.toc-head{ font-family:'Space Grotesk',sans-serif; font-size:24px; font-weight:700; letter-spacing:-.5px; margin-bottom:16px; }
+#toc-list{ list-style:none; }
+.toc-item{ display:flex; gap:12px; align-items:center; padding:10px 12px; border-radius:11px; cursor:pointer; font-weight:700; font-size:15px; color:var(--ink); }
+.toc-item:hover{ background:var(--paper2); }
+.toc-item.current{ background:#EEEBFF; color:var(--indigo-dk); }
+.toc-num{ font-weight:900; font-size:12px; color:var(--soft); font-variant-numeric:tabular-nums; width:22px; }
+.toc-item.current .toc-num{ color:var(--indigo); }
+
+/* ===== presenter notes ===== */
+.notes-bar{ position:absolute; left:0; right:0; bottom:78px; z-index:45; background:#15131F; color:#EDE9FB;
+  padding:14px 30px; font-size:14.5px; line-height:1.45; font-weight:500; display:none; border-top:2px solid var(--violet); }
+.notes-bar.show{ display:block; }
+.notes-bar b{ color:#C4B5FD; }
+</style>
+</head>
+<body>
+<div id="pres">
+<div id="viewport">
+<div id="scaler">
+
+  <!-- CHROME -->
+  <div class="chrome">
+    <span class="brand"><span class="mk"></span> Proteção &amp; Legado Digital</span>
+    <div class="ob-bar"><div class="ob-fill" id="ob-fill"></div></div>
+    <span class="ob-counter" id="counter">1 / 22</span>
+  </div>
+
+  <!-- 01 — CAPA -->
+  <section class="slide cover" data-title="Abertura" data-cta="COMEÇAR"
+    data-notes="Apresentem o grupo e já lancem a pergunta que guia tudo: o que acontece com a nossa vida digital depois que a gente morre? Esse é o fio condutor.">
+    <div class="cover-wrap">
+      <div class="cover-l">
+        <div class="cover-tag">Direito Digital · Sistemas de Informação</div>
+        <h1>Proteção e Legado Digital</h1>
+        <p class="cover-hook">O que acontece com a nossa vida digital — contas, jogos e até o nosso rosto — depois que a gente morre?</p>
+        <div class="cover-meta">Da herança de bens digitais ao uso da imagem por inteligência artificial.</div>
+      </div>
+      <div class="cover-r">
+        <div class="who">Integrantes</div>
+        <div class="team">
+          <div class="member"><span class="ava" style="background:linear-gradient(135deg,#5B5BD6,#4444AE)">BL</span><span class="nm">Bruno Gabriel dos Santos Lima</span></div>
+          <div class="member"><span class="ava" style="background:linear-gradient(135deg,#0E9AAa,#0B7A86)">CF</span><span class="nm">Carlos Henrique Roque Ferreira</span></div>
+          <div class="member"><span class="ava" style="background:linear-gradient(135deg,#9333EA,#7322C0)">EC</span><span class="nm">Eduardo Pereira Calado</span></div>
+          <div class="member"><span class="ava" style="background:linear-gradient(135deg,#E08600,#B96E00)">MO</span><span class="nm">Maryane Santos de Oliveira</span></div>
+          <div class="member"><span class="ava" style="background:linear-gradient(135deg,#23A55A,#1B8447)">TP</span><span class="nm">Thomas Gabriel Martins Pinheiro</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 02 — AGENDA -->
+  <section class="slide" data-title="Por quê / Pra quê / Pra quem"
+    data-notes="Essas três perguntas voltam na conclusão. O percurso vai do conceito básico a um exemplo concreto (games) e termina na fronteira mais polêmica: usar a imagem de quem morreu.">
+    <div class="stage top">
+      <span class="eyebrow"><span class="dot"></span> Agenda</span>
+      <h2 class="title">Três perguntas guiam toda a apresentação</h2>
+      <div class="qcards">
+        <div class="qcard q1"><div class="q">Por quê?</div><div class="d">Por que isso virou um problema jurídico</div></div>
+        <div class="qcard q2"><div class="q">Pra quê?</div><div class="d">O que exatamente estamos protegendo</div></div>
+        <div class="qcard q3"><div class="q">Pra quem?</div><div class="d">Quem herda e quem é afetado</div></div>
+      </div>
+      <div class="path">
+        <span class="p">🧩 Conceito</span><span class="arr">→</span>
+        <span class="p">🎮 Games</span><span class="arr">→</span>
+        <span class="p">🤖 IA e imagem pós-morte</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 03 — O QUE É -->
+  <section class="slide blk-dir" data-title="O que é legado digital"
+    data-notes="Hoje a vida cabe em servidores. O Direito Sucessório foi construído para bens físicos — e precisa se adaptar a esse acervo imaterial.">
+    <div class="stage">
+      <span class="eyebrow"><span class="dot"></span> Conceito</span>
+      <h1 class="title">O que é legado digital</h1>
+      <ul class="topics">
+        <li><span class="mk">📦</span> Bens, contas, arquivos e dados deixados por uma pessoa após a morte.</li>
+        <li><span class="mk">☁️</span> Um acervo imaterial, que existe só em formato eletrônico.</li>
+        <li><span class="mk">📜</span> A lei de sucessões (Código Civil, 2002) é <strong>anterior</strong> a tudo isso.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 04 — PATRIMONIAL x EXISTENCIAL -->
+  <section class="slide blk-dir" data-title="Patrimonial × Existencial"
+    data-notes="O dinheiro vai para os herdeiros; a intimidade, em regra, é protegida e não é dividida como bem comum. Essa divisão organiza o tema inteiro.">
+    <div class="stage top">
+      <span class="eyebrow"><span class="dot"></span> Conceito</span>
+      <h2 class="title">Patrimonial × Existencial</h2>
+      <div class="cols" style="margin-top:6px">
+        <div class="col good">
+          <div class="ch">💰 Bens patrimoniais</div>
+          <ul>
+            <li>Têm valor econômico → entram na herança</li>
+            <li>Cripto, contas monetizadas, milhas, domínios</li>
+            <li>Biblioteca de jogos</li>
+          </ul>
+        </div>
+        <div class="col warn">
+          <div class="ch">🔒 Bens existenciais</div>
+          <ul>
+            <li>Tocam a intimidade → em regra, não se transmitem</li>
+            <li>Mensagens privadas, fotos, conversas, diários</li>
+            <li>Protegidos pela privacidade</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 05 — HÍBRIDOS -->
+  <section class="slide blk-dir" data-title="Bens híbridos"
+    data-notes="O perfil é fonte de renda (patrimonial) e expressão da personalidade (existencial) ao mesmo tempo — por isso é o caso mais difícil.">
+    <div class="stage">
+      <span class="eyebrow"><span class="dot"></span> Conceito</span>
+      <h1 class="title">O desafio dos bens híbridos</h1>
+      <ul class="topics">
+        <li><span class="mk">🔀</span> Misturam <strong>dinheiro e personalidade</strong> ao mesmo tempo.</li>
+        <li><span class="mk">📸</span> Exemplo: perfil de influenciador ou canal monetizado.</li>
+        <li><span class="mk">⚖️</span> Tendência: transferir a renda, mas <strong>restringir o uso da imagem</strong>.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 06 — PRIVACIDADE NÃO MORRE -->
+  <section class="slide blk-dir" data-title="A privacidade não morre"
+    data-notes="Guardar o art. 12, parágrafo único: ele volta no bloco da IA. A família não herda a intimidade, mas ganha o direito de protegê-la.">
+    <div class="stage">
+      <span class="eyebrow"><span class="dot"></span> Conceito</span>
+      <h1 class="title">A privacidade não morre com a pessoa</h1>
+      <ul class="topics">
+        <li><span class="mk">🕊️</span> A morte biológica <strong>não extingue</strong> a dignidade.</li>
+        <li><span class="mk">📕</span> CF/88, art. 5º (X, XII) e Código Civil, arts. 11 a 21.</li>
+        <li><span class="mk">🛡️</span> Art. 12, parágrafo único, e art. 20: a família pode barrar o uso indevido da imagem.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 07 — VÁCUO -->
+  <section class="slide blk-dir" data-title="O vácuo legislativo"
+    data-notes="A LGPD protege a 'pessoa natural', que juridicamente deixa de existir com a morte; o Marco Civil garante o sigilo das comunicações. As plataformas usam isso para não entregar a conta.">
+    <div class="stage">
+      <span class="eyebrow"><span class="dot"></span> Conceito</span>
+      <h1 class="title">O vácuo legislativo brasileiro</h1>
+      <ul class="topics">
+        <li><span class="mk">🕳️</span> Não existe lei específica de herança digital no Brasil.</li>
+        <li><span class="mk">🧬</span> Marco Civil, LGPD e ECA foram feitos para proteger <strong>os vivos</strong>.</li>
+        <li><span class="mk">🚧</span> Viram um “escudo de privacidade” que bloqueia as famílias.</li>
+        <li><span class="mk">⚠️</span> Proteção de dados é mais forte que proteção do patrimônio.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 08 — STJ ⭐ -->
+  <section class="slide blk-dir" data-title="STJ — REsp 2.124.424/SP"
+    data-notes="O inventariante digital é um perito que abre os aparelhos sob sigilo e separa o patrimonial do existencial; quem decide o que se transmite é o juiz. É a primeira decisão da corte sobre acesso a bens digitais protegidos por senha.">
+    <div class="stage">
+      <span class="eyebrow"><span class="dot"></span> Conceito · Jurisprudência <span class="star">★ Destaque</span></span>
+      <h2 class="title">A resposta do Judiciário</h2>
+      <div class="casebox">
+        <div class="kicker">STJ · 3ª Turma · set/2025 · Rel. Min. Nancy Andrighi</div>
+        <h3>REsp 2.124.424/SP</h3>
+        <p>Caso real: acidente aéreo em São Paulo (2016) que vitimou seis pessoas de uma mesma família. O STJ criou o <strong>incidente processual próprio</strong> dentro do inventário e a figura do <strong>inventariante digital</strong>.</p>
+        <div class="meta">
+          <span class="pill">🔐 Acesso protegido por senha</span>
+          <span class="pill">🧑‍⚖️ Perito sob sigilo</span>
+          <span class="pill">⚖️ Patrimonial × existencial</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 09 — LEGISLAÇÃO -->
+  <section class="slide blk-dir" data-title="O que está vindo (leis)"
+    data-notes="O Congresso corre atrás do que o Judiciário já começou a resolver. A tendência é transferir o valor econômico e restringir o uso da imagem.">
+    <div class="stage top">
+      <span class="eyebrow"><span class="dot"></span> Conceito · Legislação</span>
+      <h2 class="title">O que está vindo</h2>
+      <div class="grid c2" style="margin-top:4px">
+        <div class="card" style="border-bottom-color:var(--indigo)"><span class="ico">📘</span><h3>PL 4/2025</h3><p>Reforma do Código Civil; cria um livro inteiro de Direito Civil Digital.</p></div>
+        <div class="card" style="border-bottom-color:var(--violet)"><span class="ico">📗</span><h3>PL 3050/2020</h3><p>Inclui a herança digital no art. 1.788 do CC; urgência aprovada na Câmara em set/2025. Um projeto apensado cria por lei o inventariante digital.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 10 — TESTAMENTO -->
+  <section class="slide blk-dir" data-title="Testamento digital"
+    data-notes="Aqui entra o problema quando não há manifestação explícita de vontade: a família perde acesso ou perde tudo por inatividade.">
+    <div class="stage top">
+      <span class="eyebrow"><span class="dot"></span> Conceito · Prevenção</span>
+      <h2 class="title">Testamento digital e a vontade não declarada</h2>
+      <div class="cols" style="margin-top:6px">
+        <div class="col good">
+          <div class="ch">✅ Quem planeja em vida</div>
+          <ul>
+            <li>Testamento ou codicilo</li>
+            <li>Administrador digital nomeado</li>
+            <li>Ferramentas nativas (Apple, Google)</li>
+          </ul>
+        </div>
+        <div class="col warn">
+          <div class="ch">❌ Sem manifestação de vontade</div>
+          <ul>
+            <li>Guerra processual longa e cara</li>
+            <li>Perda total por inatividade (12–24 meses)</li>
+            <li>O “limbo digital”</li>
+          </ul>
+        </div>
+      </div>
+      <div class="note"><span class="b">Ideia-chave</span> Legado digital se resolve melhor <em>antes</em> da morte do que depois.</div>
+    </div>
+  </section>
+
+  <!-- 11 — POR QUE GAMES -->
+  <section class="slide blk-game" data-title="Por que games?"
+    data-notes="Não é 'coisa de criança'. É o exemplo perfeito de legado digital porque envolve dinheiro real, acervo e a ilusão de propriedade.">
+    <div class="stage">
+      <span class="eyebrow"><span class="dot"></span> Games</span>
+      <h1 class="title">Por que usar games como exemplo?</h1>
+      <div class="stats">
+        <div class="stat a"><div class="num">US$ 180–224 bi</div><div class="lbl">Mercado de games por ano (2024)</div></div>
+        <div class="stat b"><div class="num">US$ 34 bi</div><div class="lbl">Bilheteria global de cinema (2023)</div></div>
+        <div class="stat c"><div class="num">~US$ 300 bi</div><div class="lbl">Projeção dos games até 2029</div></div>
+      </div>
+      <div class="note"><span class="b">Resumo</span> Maior que cinema e música somados. Preservar games é preservar cultura.</div>
+    </div>
+  </section>
+
+  <!-- 12 — ILUSÃO DA PROPRIEDADE -->
+  <section class="slide blk-game" data-title="A ilusão da propriedade"
+    data-notes="Do ponto de vista das empresas, quando o titular morre a licença expira com ele.">
+    <div class="stage">
+      <span class="eyebrow"><span class="dot"></span> Games</span>
+      <h1 class="title">A ilusão da propriedade</h1>
+      <ul class="topics">
+        <li><span class="mk">🎫</span> Você não compra o jogo: compra uma <strong>licença revogável e intransferível</strong>.</li>
+        <li><span class="mk">🚫</span> Steam, Sony e Riot proíbem transferência — inclusive por morte.</li>
+        <li><span class="mk">©️</span> Base: Lei de Direitos Autorais (9.610/98, art. 37) e Termos de Uso.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 13 — BIBLIOTECA MORRE -->
+  <section class="slide blk-game" data-title="Sua biblioteca morre"
+    data-notes="Quase ninguém recorre à Justiça; a solução real é informal e frágil.">
+    <div class="stage">
+      <span class="eyebrow"><span class="dot"></span> Games</span>
+      <h1 class="title">Quando você morre, sua biblioteca morre</h1>
+      <ul class="topics">
+        <li><span class="mk">🕵️</span> “Mercado cinza”: a família mantém a conta com login, senha e 2FA.</li>
+        <li><span class="mk">📞</span> Acionou o suporte? A empresa nega — você não é o titular.</li>
+        <li><span class="mk">🇧🇷</span> No Brasil: CDC art. 51 e saisine (CC art. 1.784) puxam para o herdeiro.</li>
+        <li><span class="mk">🌍</span> Difícil fazer empresa estrangeira cumprir decisão brasileira.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 14 — STOP KILLING GAMES ⭐ -->
+  <section class="slide blk-game" data-title="Stop Killing Games"
+    data-notes="Tema atualíssimo. A Comissão citou direitos de propriedade intelectual como obstáculo; o movimento agora tenta o Digital Fairness Act.">
+    <div class="stage top">
+      <span class="eyebrow"><span class="dot"></span> Games <span class="star">★ Destaque</span></span>
+      <h2 class="title">Stop Killing Games</h2>
+      <div class="tl" style="margin-top:8px">
+        <div class="row"><div class="when">2024</div><div class="what">A Ubisoft desliga o <b>The Crew</b> e o torna permanentemente injogável.</div></div>
+        <div class="row"><div class="when">jul/2025</div><div class="what">Iniciativa europeia reúne <b>~1,45 milhão de assinaturas</b>.</div></div>
+        <div class="row"><div class="when">jun/2026</div><div class="what">Comissão Europeia: <b>não</b> obriga a manter jogos jogáveis (cita propriedade intelectual), <b>mas</b> fará um código de conduta com a indústria.</div></div>
+        <div class="row"><div class="when">em curso</div><div class="what">Associação francesa <b>UFC-Que Choisir</b> processa a Ubisoft.</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 15 — SLOGAN -->
+  <section class="slide blk-game" data-title="“Comprar não é possuir”"
+    data-notes="Apresentar os dois lados deixa o trabalho equilibrado e levanta a pergunta sobre licença versus propriedade. O slogan é a bandeira do movimento, não a tese do grupo.">
+    <div class="stage top">
+      <span class="eyebrow"><span class="dot"></span> Games · Debate</span>
+      <h2 class="title">“Se comprar não é possuir, piratear não é crime”</h2>
+      <div class="cols" style="margin-top:6px">
+        <div class="col good">
+          <div class="ch">📢 Argumento consumerista</div>
+          <ul>
+            <li>Se a empresa revoga o que vendeu, a propriedade é ficção</li>
+            <li>Preservar/emular seria defesa cultural</li>
+          </ul>
+        </div>
+        <div class="col warn">
+          <div class="ch">⚖️ Contraponto jurídico</div>
+          <ul>
+            <li>Pirataria segue sendo violação de direito autoral (9.610/98)</li>
+            <li>É provocação política, não argumento jurídico</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 16 — TRANSIÇÃO IA -->
+  <section class="slide blk-ia" data-title="E se for o seu rosto?"
+    data-notes="Transição do bloco de games para o de IA: deixamos o que você tem e passamos para o que você é.">
+    <div class="stage">
+      <span class="eyebrow"><span class="dot"></span> IA e imagem pós-morte</span>
+      <h1 class="title">E se não for sua conta, mas seu rosto?</h1>
+      <ul class="topics">
+        <li><span class="mk">📂</span> Até aqui falamos do que você <strong>tem</strong>.</li>
+        <li><span class="mk">🧑</span> Agora: o que fazem com o que você <strong>é</strong> — sua imagem, sua voz.</li>
+        <li><span class="mk">🤖</span> A IA “ressuscita” e rentabiliza a imagem de quem morreu. Aqui o tema vira <strong>dignidade</strong>.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 17 — TUPAC ⭐ -->
+  <section class="slide blk-ia" data-title="Caso Tupac"
+    data-notes="30 anos após a morte, a imagem segue sendo usada — mas com autorização e controle. É a referência de 'como fazer com cuidado'.">
+    <div class="stage">
+      <span class="eyebrow"><span class="dot"></span> IA · Caso <span class="star">★ Destaque</span></span>
+      <h2 class="title">Caso Tupac — <em>Stranger Than Heaven</em></h2>
+      <div class="casebox">
+        <div class="kicker">Consentimento + sem IA</div>
+        <h3>O limite considerado aceitável</h3>
+        <p>Tupac (morto em 1996) vira o personagem <strong>Amaru</strong> no jogo da SEGA/RGG (lança em 2027), com <strong>permissão do espólio</strong> (Amaru Entertainment). A SEGA afirmou que <strong>NÃO usou IA</strong> — o design veio de footage de arquivo e fotografias.</p>
+        <div class="meta">
+          <span class="pill">✅ Autorização do espólio</span>
+          <span class="pill">🚫 Sem IA generativa</span>
+          <span class="pill">🎮 Lançamento em 2027</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 18 — GANLEY -->
+  <section class="slide blk-ia" data-title="Caso Gabriel Ganley"
+    data-notes="O contraste direto entre os dois casos é o ponto central do bloco de IA: mesmo tema, legitimidade oposta.">
+    <div class="stage">
+      <span class="eyebrow"><span class="dot"></span> IA · Caso</span>
+      <h2 class="title">Caso Gabriel Ganley — o oposto</h2>
+      <div class="casebox" style="border-color:var(--red); box-shadow:0 8px 0 rgba(229,72,77,.12)">
+        <div class="kicker" style="color:var(--red)">Sem consentimento</div>
+        <h3>Imagem recriada por IA, dias após a morte</h3>
+        <p>Influenciador fitness, morreu em <strong>23/05/2026</strong>, aos 22. Logo depois, viralizou um <strong>vídeo gerado por IA</strong> mostrando ele e o Zyzz (outro fisiculturista falecido) “treinando juntos no céu” — sem qualquer autorização ou controle do espólio.</p>
+        <div class="meta">
+          <span class="pill" style="background:#FCEDED;color:#B23036;border-color:#F3D9DB">❌ Sem autorização</span>
+          <span class="pill" style="background:#FCEDED;color:#B23036;border-color:#F3D9DB">⏱️ Dias após a morte</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 19 — ATORES CGI -->
+  <section class="slide blk-ia" data-title="Atores, CGI e hologramas"
+    data-notes="Mostrar que existe uma longa zona cinzenta entre homenagem e exploração — e o impacto em quem está vivo.">
+    <div class="stage">
+      <span class="eyebrow"><span class="dot"></span> IA · Espectro</span>
+      <h1 class="title">Atores, CGI e hologramas</h1>
+      <ul class="topics">
+        <li><span class="mk">🎬</span> Cushing e Fisher em <em>Rogue One</em>; Paul Walker em <em>Velozes 7</em>; Oliver Reed em <em>Gladiador</em>.</li>
+        <li><span class="mk">🎤</span> Shows com hologramas de artistas mortos.</li>
+        <li><span class="mk">↔️</span> Um espectro que vai do <strong>respeitoso</strong> ao <strong>explorativo</strong>.</li>
+        <li><span class="mk">👥</span> Impacto em quem está vivo: família, fãs e colegas.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 20 — TEMPORALIDADES -->
+  <section class="slide blk-ia" data-title="Temporalidades"
+    data-notes="O Direito ainda não respondeu se usar a imagem décadas depois é igual a gerar um vídeo dias após o velório.">
+    <div class="stage top">
+      <span class="eyebrow"><span class="dot"></span> IA · O tempo</span>
+      <h2 class="title">Temporalidades: o tempo muda tudo</h2>
+      <div class="tl" style="margin-top:8px">
+        <div class="row"><div class="when">30 anos</div><div class="what"><b>Tupac</b> — uso da imagem com autorização e espólio organizado.</div></div>
+        <div class="row"><div class="when">dias</div><div class="what"><b>Ganley</b> — vídeo de IA logo após a morte, sem autorização.</div></div>
+        <div class="row"><div class="when">durante</div><div class="what"><b>Atores</b> — recriação durante ou logo após a produção.</div></div>
+      </div>
+      <div class="note"><span class="b">Pergunta</span> Existe um “prazo de luto”? (O PL 3050/2020 fala em 70 anos para os direitos patrimoniais do perfil.)</div>
+    </div>
+  </section>
+
+  <!-- 21 — DESCANSO ⭐ -->
+  <section class="slide blk-ia" data-title="Até onde vai o descanso?"
+    data-notes="Não há resposta fechada; o objetivo é apresentar os critérios. Base no Brasil: art. 12 parágrafo único e art. 20 do Código Civil. A tecnologia avança mais rápido que a lei.">
+    <div class="stage top">
+      <span class="eyebrow"><span class="dot"></span> IA · Discussão <span class="star">★ Destaque</span></span>
+      <h2 class="title">Até onde vai o descanso pós-morte?</h2>
+      <div class="crit" style="margin-top:6px">
+        <div class="item"><div class="q">🤝 Consentimento</div><div class="d">A pessoa autorizou o uso em vida?</div></div>
+        <div class="item"><div class="q">🎛️ Controle</div><div class="d">Quem decide: o espólio/família ou qualquer um com IA?</div></div>
+        <div class="item"><div class="q">🎯 Finalidade</div><div class="d">É homenagem ou exploração comercial?</div></div>
+        <div class="item"><div class="q">🕊️ Dignidade</div><div class="d">O uso preserva ou degrada a memória?</div></div>
+      </div>
+      <div class="note"><span class="b">Base legal</span> Código Civil, art. 12, parágrafo único, e art. 20.</div>
+    </div>
+  </section>
+
+  <!-- 22 — CONCLUSÃO -->
+  <section class="slide blk-end" data-title="Conclusão" data-cta="FIM"
+    data-notes="Fechar devolvendo a pergunta à turma: um dia o nosso acervo, a nossa conta e o nosso rosto também serão herança. Quem decide o que acontece com eles — nós, a família ou a plataforma?">
+    <div class="stage top">
+      <span class="eyebrow"><span class="dot"></span> Conclusão</span>
+      <h2 class="title">Por quê · Pra quê · Pra quem</h2>
+      <ul class="topics" style="margin-top:4px">
+        <li><span class="mk">❓</span> <strong>Por quê:</strong> a vida virou digital e a lei não acompanhou (vácuo → REsp → PLs).</li>
+        <li><span class="mk">🛡️</span> <strong>Pra quê:</strong> proteger patrimônio <strong>E</strong> dignidade — coisas diferentes, soluções diferentes.</li>
+        <li><span class="mk">👪</span> <strong>Pra quem:</strong> herdeiros, o falecido e os vivos.</li>
+        <li><span class="mk">💭</span> São dois problemas: herança (dinheiro) e dignidade (imagem).</li>
+      </ul>
+      <div class="note"><span class="b">Provocação</span> Um dia, o nosso acervo, a nossa conta e o nosso rosto também vão virar herança. Quem decide o que acontece com eles?</div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <div class="ob-cta" id="ob-cta-wrap">
+    <span class="foot-hint"><kbd>←</kbd> <kbd>→</kbd> navegar · <kbd>T</kbd> sumário · <kbd>N</kbd> notas · <kbd>F</kbd> tela cheia</span>
+    <div class="foot-actions">
+      <button class="foot-back" id="ob-back">‹ Voltar</button>
+      <button class="duo-btn" id="ob-cta">Continuar</button>
+    </div>
+  </div>
+
+  <!-- presenter notes -->
+  <div class="notes-bar" id="notes-bar"></div>
+
+  <!-- TOC -->
+  <button class="foot-back toc-toggle" id="toc-toggle">☰ Sumário</button>
+  <aside class="toc-panel" id="toc-panel">
+    <div class="toc-inner">
+      <div class="toc-head">Sumário</div>
+      <ol id="toc-list"></ol>
+    </div>
+  </aside>
+
+</div>
+</div>
+</div>
+
+<script>
+(function(){
+  'use strict';
+  const scaler = document.getElementById('scaler');
+  const slides = Array.from(document.querySelectorAll('.slide'));
+  const counter= document.getElementById('counter');
+  const fill   = document.getElementById('ob-fill');
+  const back   = document.getElementById('ob-back');
+  const cta     = document.getElementById('ob-cta');
+  const ctaWrap = document.getElementById('ob-cta-wrap');
+  const tocPanel= document.getElementById('toc-panel');
+  const tocList = document.getElementById('toc-list');
+  const notesBar= document.getElementById('notes-bar');
+  const W=1280, H=720;
+  let index=0, step=0, notesOn=false;
+
+  function fit(){ const s=Math.min(window.innerWidth/W, window.innerHeight/H); scaler.style.transform='scale('+s+')'; }
+  window.addEventListener('resize', fit);
+
+  const stepsOf = i => Array.from(slides[i].querySelectorAll('.step'));
+
+  function render(){
+    slides.forEach((sl,i)=> sl.classList.toggle('active', i===index));
+    stepsOf(index).forEach((el,k)=> el.classList.toggle('show', k<step));
+    counter.textContent = (index+1)+' / '+slides.length;
+    fill.style.width = ((index+1)/slides.length*100)+'%';
+    back.disabled = (index===0 && step===0);
+    const label = slides[index].dataset.cta;
+    cta.textContent = (label && label!=='') ? label : 'Continuar';
+    Array.from(tocList.children).forEach(li=> li.classList.toggle('current', +li.dataset.goto===index));
+    notesBar.innerHTML = '<b>Nota:</b> ' + (slides[index].dataset.notes || '—');
+    notesBar.classList.toggle('show', notesOn);
+    location.replace('#'+(index+1));
+  }
+  function next(){ const st=stepsOf(index); if(step<st.length){step++;return render();} if(index<slides.length-1){index++;step=0;render();} }
+  function prev(){ if(step>0){step--;return render();} if(index>0){index--;step=stepsOf(index).length;render();} }
+  function goto(i){ index=Math.max(0,Math.min(slides.length-1,i)); step=0; render(); tocPanel.classList.remove('open'); }
+
+  function buildToc(){
+    slides.forEach((sl,i)=>{
+      const t = sl.dataset.title || ('Slide '+(i+1));
+      const li=document.createElement('li');
+      li.className='toc-item'; li.dataset.goto=i;
+      li.innerHTML='<span class="toc-num">'+String(i+1).padStart(2,'0')+'</span><span>'+t+'</span>';
+      li.addEventListener('click', ()=>goto(i));
+      tocList.appendChild(li);
+    });
+  }
+  const toggleToc = ()=> tocPanel.classList.toggle('open');
+
+  window.addEventListener('keydown', e=>{
+    switch(e.key){
+      case 'ArrowRight': case ' ': case 'PageDown': e.preventDefault(); next(); break;
+      case 'ArrowLeft': case 'PageUp': e.preventDefault(); prev(); break;
+      case 'Home': goto(0); break;
+      case 'End': goto(slides.length-1); break;
+      case 't': case 'T': toggleToc(); break;
+      case 'n': case 'N': notesOn=!notesOn; render(); break;
+      case 'Escape': tocPanel.classList.remove('open'); break;
+      case 'f': case 'F':
+        if(!document.fullscreenElement) document.documentElement.requestFullscreen();
+        else document.exitFullscreen();
+        break;
+    }
+  });
+  cta.addEventListener('click', next);
+  back.addEventListener('click', prev);
+  document.getElementById('toc-toggle').addEventListener('click', toggleToc);
+  tocPanel.addEventListener('click', e=>{ if(e.target===tocPanel) tocPanel.classList.remove('open'); });
+
+  let tx=0;
+  window.addEventListener('touchstart', e=> tx=e.changedTouches[0].clientX, {passive:true});
+  window.addEventListener('touchend', e=>{ const dx=e.changedTouches[0].clientX-tx; if(Math.abs(dx)>50)(dx<0?next():prev()); }, {passive:true});
+
+  buildToc(); fit();
+  const hash=parseInt(location.hash.replace('#',''),10);
+  if(hash && hash>=1 && hash<=slides.length) index=hash-1;
+  render();
+})();
+</script>
+</body>
+</html>

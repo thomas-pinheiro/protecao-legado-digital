@@ -1,0 +1,239 @@
+{
+    "versao": 1,
+    "slides": [
+        {
+            "id": "9c85585c-4c13-41d8-aec4-650f213e2a33",
+            "titulo": "Proteção e Legado Digital",
+            "topicos": [
+                "O que acontece com a nossa vida digital depois que a gente morre?",
+                "Da herança de contas e jogos ao uso da imagem por IA",
+                "Disciplina de Direito Digital — Sistemas de Informação"
+            ],
+            "notas": "Integrantes: Bruno Gabriel dos Santos Lima, Carlos Henrique Roque Ferreira, Eduardo Pereira Calado, Maryane Santos de Oliveira e Thomas Gabriel Martins Pinheiro. Abrir apresentando o grupo e a pergunta que guia toda a apresentação."
+        },
+        {
+            "id": "5f6580b3-97d5-4ca4-b11e-b7658d096c05",
+            "titulo": "Por quê? Pra quê? Pra quem?",
+            "topicos": [
+                "Por quê: por que isso virou um problema jurídico",
+                "Pra quê: o que estamos protegendo",
+                "Pra quem: quem herda e quem é afetado",
+                "Percurso: Conceito → Games → IA e imagem pós-morte"
+            ],
+            "notas": "Essas três perguntas voltam na conclusão. A apresentação vai do conceito básico a um exemplo concreto (games) e termina na fronteira mais polêmica, o uso da imagem de quem morreu."
+        },
+        {
+            "id": "e4efd2aa-01f6-4919-979c-5e297d7845bc",
+            "titulo": "O que é legado digital",
+            "topicos": [
+                "Bens, contas, arquivos e dados deixados após a morte",
+                "Acervo imaterial, que só existe em formato eletrônico",
+                "A lei de sucessões (Código Civil, 2002) é anterior a tudo isso"
+            ],
+            "notas": "Hoje a vida cabe em servidores. O Direito Sucessório foi construído para bens físicos e precisa se adaptar."
+        },
+        {
+            "id": "0b2617a3-4894-4162-8817-675d7aa6743f",
+            "titulo": "Patrimonial × Existencial",
+            "topicos": [
+                "Patrimoniais: têm valor econômico e entram na herança (cripto, contas monetizadas, milhas, jogos)",
+                "Existenciais: tocam a intimidade e, em regra, não se transmitem (mensagens, fotos, diários)",
+                "Essa divisão organiza o tema inteiro"
+            ],
+            "notas": "O dinheiro vai para os herdeiros; a intimidade, em regra, é protegida e não é dividida como bem comum."
+        },
+        {
+            "id": "3bbbce43-ef14-4c93-a94f-dd2c20164358",
+            "titulo": "O desafio dos bens híbridos",
+            "topicos": [
+                "Misturam dinheiro e personalidade ao mesmo tempo",
+                "Exemplo: perfil de influenciador ou canal monetizado",
+                "Tendência: transferir a renda, mas restringir o uso da imagem"
+            ],
+            "notas": "O perfil é fonte de renda (patrimonial) e expressão da personalidade (existencial) ao mesmo tempo, por isso é o caso mais difícil."
+        },
+        {
+            "id": "8f958530-43fe-4ae1-a8d0-12d5dc4c3bd4",
+            "titulo": "A privacidade não morre com a pessoa",
+            "topicos": [
+                "A morte biológica não extingue a dignidade",
+                "CF/88 art. 5º (X, XII) e Código Civil arts. 11 a 21",
+                "Art. 12, parágrafo único, e art. 20: a família pode barrar o uso indevido da imagem"
+            ],
+            "notas": "Guardar o art. 12 parágrafo único: ele volta no bloco da IA. A família não herda a intimidade, mas ganha o direito de protegê-la."
+        },
+        {
+            "id": "9c2922cd-a4ca-4844-9da5-e30baf9878e1",
+            "titulo": "O vácuo legislativo brasileiro",
+            "topicos": [
+                "Não existe lei específica de herança digital no Brasil",
+                "Marco Civil, LGPD e ECA foram feitos para proteger os vivos",
+                "Viram um 'escudo de privacidade' que bloqueia as famílias",
+                "Proteção de dados é mais forte que proteção do patrimônio"
+            ],
+            "notas": "A LGPD protege a 'pessoa natural', que juridicamente deixa de existir com a morte; o Marco Civil garante o sigilo das comunicações. As plataformas usam isso para não entregar a conta."
+        },
+        {
+            "id": "5f0c1982-9099-4df2-9317-4a42c48368ae",
+            "titulo": "A resposta do Judiciário: REsp 2.124.424/SP",
+            "topicos": [
+                "STJ, 3ª Turma, set/2025 — Rel. Min. Nancy Andrighi",
+                "Caso real: acidente aéreo em SP (2016), seis vítimas da mesma família",
+                "Criou o incidente processual próprio dentro do inventário",
+                "Criou a figura do inventariante digital"
+            ],
+            "notas": "O inventariante digital é um perito que abre os aparelhos sob sigilo e separa o patrimonial do existencial; quem decide o que se transmite é o juiz. É a primeira decisão da corte sobre acesso a bens digitais protegidos por senha."
+        },
+        {
+            "id": "3bbbce43-ef14-4c93-a94f-dd2c20164358",
+            "titulo": "O que está vindo (legislação)",
+            "topicos": [
+                "PL 4/2025: reforma do Código Civil, cria um livro de Direito Civil Digital",
+                "PL 3050/2020: inclui herança digital no art. 1.788; urgência aprovada em set/2025",
+                "Um projeto apensado cria por lei o inventariante digital"
+            ],
+            "notas": "O Congresso corre atrás do que o Judiciário já começou a resolver. A tendência é transferir o valor econômico e restringir o uso da imagem."
+        },
+        {
+            "id": "8f958530-43fe-4ae1-a8d0-12d5dc4c3bd4",
+            "titulo": "Testamento digital e a vontade não declarada",
+            "topicos": [
+                "Em vida: testamento, administrador digital, ferramentas nativas (Apple, Google)",
+                "Sem manifestação: guerra processual ou perda total",
+                "Contas inativas apagadas em 12 a 24 meses = 'limbo digital'",
+                "Resolve-se melhor antes da morte do que depois"
+            ],
+            "notas": "Aqui entra o problema quando não há manifestação explícita de vontade: a família perde acesso ou perde tudo por inatividade."
+        },
+        {
+            "id": "9c2922cd-a4ca-4844-9da5-e30baf9878e1",
+            "titulo": "Por que games?",
+            "topicos": [
+                "Maior indústria cultural do século",
+                "Maior que cinema e música somados (~US$ 300 bi até 2029)",
+                "Games ~US$ 180–224 bi (2024); cinema ~US$ 34 bi (2023)",
+                "Preservar games é preservar cultura"
+            ],
+            "notas": "Não é 'coisa de criança'. É o exemplo perfeito de legado digital porque envolve dinheiro real, acervo e a ilusão de propriedade."
+        },
+        {
+            "id": "8f958530-43fe-4ae1-a8d0-12d5dc4c3bd4",
+            "titulo": "A ilusão da propriedade",
+            "topicos": [
+                "Você não compra o jogo: compra uma licença revogável e intransferível",
+                "Steam, Sony e Riot proíbem transferência, inclusive por morte",
+                "Base: Lei de Direitos Autorais (9.610/98, art. 37) e Termos de Uso"
+            ],
+            "notas": "Do ponto de vista das empresas, quando o titular morre a licença expira com ele."
+        },
+        {
+            "id": "9c2922cd-a4ca-4844-9da5-e30baf9878e1",
+            "titulo": "Quando você morre, sua biblioteca morre",
+            "topicos": [
+                "Mercado cinza: a família mantém a conta com login, senha e 2FA",
+                "Acionou o suporte? A empresa nega — você não é o titular",
+                "No Brasil: CDC art. 51 e saisine (CC art. 1.784) puxam para o herdeiro",
+                "Difícil fazer empresa estrangeira cumprir decisão brasileira"
+            ],
+            "notas": "Quase ninguém recorre à Justiça; a solução real é informal e frágil."
+        },
+        {
+            "id": "5f0c1982-9099-4df2-9317-4a42c48368ae",
+            "titulo": "Stop Killing Games",
+            "topicos": [
+                "Ubisoft desligou o The Crew (2024) e o tornou injogável",
+                "Iniciativa europeia: ~1,45 milhão de assinaturas (jul/2025)",
+                "Comissão Europeia (jun/2026): não obriga, mas fará código de conduta",
+                "Associação francesa UFC-Que Choisir processou a Ubisoft"
+            ],
+            "notas": "Tema atualíssimo. A Comissão citou direitos de propriedade intelectual como obstáculo; o movimento agora tenta o Digital Fairness Act."
+        },
+        {
+            "id": "3bbbce43-ef14-4c93-a94f-dd2c20164358",
+            "titulo": "'Se comprar não é possuir, piratear não é crime'",
+            "topicos": [
+                "Bandeira do movimento consumerista, não tese do grupo",
+                "Argumento: se a empresa revoga o que vendeu, a propriedade é ficção",
+                "Contraponto: pirataria segue sendo violação de direito autoral (9.610/98)",
+                "É provocação política, não argumento jurídico"
+            ],
+            "notas": "Apresentar os dois lados deixa o trabalho equilibrado e levanta a pergunta sobre licença versus propriedade."
+        },
+        {
+            "id": "8f958530-43fe-4ae1-a8d0-12d5dc4c3bd4",
+            "titulo": "E se não for sua conta, mas seu rosto?",
+            "topicos": [
+                "Até aqui falamos do que você tem; agora, do que você é",
+                "IA generativa 'ressuscita' e rentabiliza a imagem de quem morreu",
+                "Aqui o legado digital vira questão de dignidade"
+            ],
+            "notas": "Transição do bloco de games para o de IA e imagem pós-morte."
+        },
+        {
+            "id": "9c2922cd-a4ca-4844-9da5-e30baf9878e1",
+            "titulo": "Caso Tupac — Stranger Than Heaven",
+            "topicos": [
+                "Morto em 1996, vira o personagem Amaru (jogo da SEGA/RGG, 2027)",
+                "Uso feito com permissão do espólio (Amaru Entertainment)",
+                "A SEGA afirmou que NÃO usou IA: design por footage e fotos",
+                "Limite aceitável: consentimento do espólio mais ausência de IA"
+            ],
+            "notas": "30 anos após a morte, a imagem segue sendo usada — mas com autorização e controle. É a referência de 'como fazer com cuidado'."
+        },
+        {
+            "id": "5f0c1982-9099-4df2-9317-4a42c48368ae",
+            "titulo": "Caso Gabriel Ganley — o oposto",
+            "topicos": [
+                "Influenciador fitness, morreu em 23/05/2026, aos 22",
+                "Vídeo de IA o mostra 'treinando no céu' com Zyzz",
+                "Sem consentimento em vida e sem controle do espólio",
+                "Mesmo tema do Tupac, legitimidade oposta"
+            ],
+            "notas": "O contraste direto entre os dois casos é o ponto central do bloco de IA."
+        },
+        {
+            "id": "9c2922cd-a4ca-4844-9da5-e30baf9878e1",
+            "titulo": "Atores, CGI e hologramas",
+            "topicos": [
+                "Cushing e Fisher em Rogue One; Paul Walker em Velozes 7; Oliver Reed em Gladiador",
+                "Hologramas de artistas mortos em shows",
+                "Espectro que vai do respeitoso ao explorativo",
+                "Impacto em quem está vivo: família, fãs e colegas"
+            ],
+            "notas": "Mostrar que existe uma longa zona cinzenta entre homenagem e exploração."
+        },
+        {
+            "id": "5f0c1982-9099-4df2-9317-4a42c48368ae",
+            "titulo": "Temporalidades: o tempo muda tudo",
+            "topicos": [
+                "Tupac: 30 anos depois, com autorização",
+                "Ganley: poucos dias depois, sem autorização",
+                "Existe um 'prazo de luto'?",
+                "PL 3050/2020 fala em 70 anos para direitos patrimoniais do perfil"
+            ],
+            "notas": "O Direito ainda não respondeu se usar a imagem décadas depois é igual a gerar um vídeo dias após o velório."
+        },
+        {
+            "id": "9c2922cd-a4ca-4844-9da5-e30baf9878e1",
+            "titulo": "Até onde vai o descanso pós-morte?",
+            "topicos": [
+                "Consentimento: a pessoa autorizou em vida?",
+                "Controle: espólio e família, ou qualquer um com IA?",
+                "Finalidade: homenagem ou exploração comercial?",
+                "Dignidade: preserva ou degrada a memória?"
+            ],
+            "notas": "Não há resposta fechada; o objetivo é apresentar os critérios. Base no Brasil: art. 12 parágrafo único e art. 20 do Código Civil. A tecnologia avança mais rápido que a lei."
+        },
+        {
+            "id": "5f0c1982-9099-4df2-9317-4a42c48368ae",
+            "titulo": "Conclusão: por quê / pra quê / pra quem",
+            "topicos": [
+                "Por quê: a vida virou digital e a lei não acompanhou",
+                "Pra quê: proteger patrimônio E dignidade",
+                "Pra quem: herdeiros, o falecido e os vivos",
+                "São dois problemas: herança (dinheiro) e dignidade (imagem)"
+            ],
+            "notas": "Fechar devolvendo a pergunta à turma: um dia o nosso acervo, a nossa conta e o nosso rosto também serão herança. Quem decide o que acontece com eles — nós, a família ou a plataforma?"
+        }
+    ]
+}
