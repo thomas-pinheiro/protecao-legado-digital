@@ -8,16 +8,13 @@ Academic presentation for a Digital Law course (Bacharelado em Sistemas de Infor
 
 ## Running the presentation
 
-No build step. Open `index.html` directly in a browser:
+The engine loads slides via `fetch()`, so a static server is required (no `file://`):
 
 ```
-# Any of these work:
-start index.html          # Windows
-open index.html           # macOS
-xdg-open index.html       # Linux
+npx serve .
 ```
 
-For live editing, use any static file server (e.g. `npx serve .` or VS Code Live Server extension) to avoid font-loading quirks with `file://`.
+Or use the VS Code Live Server extension. Then open `http://localhost:3000` (or whichever port `serve` picks).
 
 **Keyboard shortcuts (built into the presentation):**
 - `← →` / `Space` / `PageUp PageDown` — navigate slides
@@ -47,7 +44,9 @@ Each block class overrides `.eyebrow`, `.casebox`, and `.tl` colors. The default
 
 **Step reveals:** Any element with class `.step` inside a slide is hidden until the user advances within that slide. The JS tracks `step` count per slide and toggles `.show`.
 
+**Slide files:** each slide lives in `slides/NN-nome.html` as a standalone `<section class="slide">` fragment. The engine fetches them in order at startup via `Promise.all`, parses each fragment, and appends it to `#slides-host` inside `#scaler`. To edit a slide, open only its file — nothing else is affected. To add a slide, create the file and add its path to the `SLIDE_FILES` array in `index.html`.
+
 **Supporting files:**
-- `roteiro/v1.json` — structured slide data (JSON draft used to author the HTML; not loaded at runtime)
 - `roteiro/Roteiro_Slides_Protecao_e_Legado_Digital.md` — full speaker script with "Tela / Fala / Fonte" notes per slide
-- `Protecao_e_Legado_Digital_Texto_Completo.md` — complete essay version of the same content (source of truth for facts and legal citations)
+- `Protecao_e_Legado_Digital_Texto_Completo.md` — complete essay version of the content (source of truth for facts and legal citations)
+- `roteiro/v1.json` — legacy JSON draft, not loaded at runtime
